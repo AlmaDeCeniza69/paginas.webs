@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LA GUAPA — Art Based Bar & Restaurant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5EFE0;
+    --cream-dark:#EAE1CB;
+    --green:#123A2C;
+    --green-2:#1B4D38;
+    --sage:#C9D4AF;
+    --mustard:#F0A400;
+    --mustard-dark:#D98F00;
+    --ink:#141414;
+    --maroon:#7A1F1F;
+    --radius:0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    line-height:0.95;
+  }
+  a{text-decoration:none; color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1240px; margin:0 auto; padding:0 40px;}
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- hard shadow utility ---------- */
+  .hard-box{
+    border:3px solid var(--ink);
+    box-shadow:8px 8px 0 var(--ink);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:var(--cream);
+    border-bottom:3px solid var(--ink);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 40px;
+    max-width:1240px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Anton', sans-serif;
+    font-size:26px;
+    letter-spacing:1px;
+    color:var(--green);
+    -webkit-text-stroke:1px var(--mustard);
+    text-shadow:2px 2px 0 var(--mustard);
+  }
+  nav ul{list-style:none; display:flex; gap:36px;}
+  nav a{
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav a::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:0; height:2px; background:var(--mustard-dark);
+    transition:width .25s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .btn{
+    display:inline-block;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    background:var(--mustard);
+    color:var(--ink);
+    padding:12px 22px;
+    border:3px solid var(--ink);
+    box-shadow:5px 5px 0 var(--ink);
+    transition:transform .15s ease, box-shadow .15s ease;
+    cursor:pointer;
+  }
+  .btn:hover{
+    transform:translate(-3px,-3px);
+    box-shadow:8px 8px 0 var(--ink);
+  }
+  .btn.small{padding:10px 18px; font-size:12px; box-shadow:4px 4px 0 var(--ink);}
+  .nav-toggle{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:90px 0 100px;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:70px;
+    align-items:center;
+  }
+  .hero-media{
+    position:relative;
+    border:4px solid var(--ink);
+    box-shadow:14px 14px 0 var(--mustard);
+    aspect-ratio:1/1;
+    overflow:hidden;
+  }
+  .hero-media img{width:100%; height:100%; object-fit:cover;}
+  .eyebrow{
+    display:inline-block;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--maroon);
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:clamp(40px,5vw,64px);
+    color:var(--green);
+    text-shadow:3px 3px 0 var(--sage);
+  }
+  .hero p.lead{
+    margin-top:24px;
+    font-size:18px;
+    line-height:1.6;
+    max-width:46ch;
+    color:#2b2b2b;
+  }
+  .callout{
+    margin-top:34px;
+    background:var(--mustard);
+    border:3px solid var(--ink);
+    box-shadow:8px 8px 0 var(--ink);
+    padding:26px 30px;
+    max-width:480px;
+  }
+  .callout h3{font-size:22px; color:var(--ink); margin-bottom:10px;}
+  .callout p{font-size:15px; line-height:1.55;}
+
+  /* ---------- collage / about section ---------- */
+  .collage{
+    position:relative;
+    background:var(--cream-dark);
+    padding:110px 0;
+    overflow:hidden;
+    border-top:3px solid var(--ink);
+    border-bottom:3px solid var(--ink);
+  }
+  .collage-shapes{
+    position:absolute; inset:0;
+    z-index:0;
+  }
+  .collage-shapes span{
+    position:absolute;
+    border-radius:50%;
+    opacity:.55;
+    filter:blur(0px);
+  }
+  .s1{width:420px; height:420px; background:var(--green); top:-140px; left:-100px;}
+  .s2{width:300px; height:300px; background:var(--mustard); bottom:-90px; left:22%;}
+  .s3{width:260px; height:260px; background:var(--sage); top:10%; right:-60px;}
+  .s4{width:180px; height:180px; background:var(--green-2); bottom:10%; right:8%;}
+  .collage-inner{
+    position:relative; z-index:2;
+    max-width:640px; margin:0 auto;
+    text-align:center;
+  }
+  .tag-card{
+    background:var(--cream);
+    border:3px solid var(--ink);
+    box-shadow:10px 10px 0 var(--ink);
+    padding:40px 44px;
+    transform:rotate(-2deg);
+  }
+  .tag-card h2{
+    font-size:clamp(34px,4.4vw,52px);
+    color:var(--green);
+  }
+  .tag-card-sub{
+    margin-top:26px;
+    background:var(--mustard);
+    border:3px solid var(--ink);
+    box-shadow:8px 8px 0 var(--ink);
+    padding:22px 26px;
+    transform:rotate(1.5deg);
+  }
+  .tag-card-sub p{font-size:15px; line-height:1.6; text-align:left;}
+
+  /* ---------- menu ---------- */
+  .menu{padding:110px 0; background:var(--cream);}
+  .section-head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px; margin-bottom:56px; flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(34px,4.6vw,54px); color:var(--green);}
+  .section-head p{max-width:40ch; font-size:15px; line-height:1.6; color:#333;}
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+  .menu-item{
+    background:var(--cream-dark);
+    border:3px solid var(--ink);
+    padding:26px;
+    position:relative;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:6px 6px 0 var(--ink);
+  }
+  .menu-item:hover{transform:translate(-4px,-4px); box-shadow:10px 10px 0 var(--ink);}
+  .menu-item .kicker{
+    font-size:11px; font-weight:700; letter-spacing:2px;
+    text-transform:uppercase; color:var(--maroon); margin-bottom:10px;
+  }
+  .menu-item h3{font-size:22px; color:var(--green); margin-bottom:10px;}
+  .menu-item p{font-size:14px; line-height:1.5; color:#333; margin-bottom:18px;}
+  .menu-item .price{
+    font-family:'Anton', sans-serif;
+    font-size:20px; color:var(--ink);
+    background:var(--mustard);
+    display:inline-block;
+    padding:4px 12px;
+    border:2px solid var(--ink);
+  }
+
+  /* ---------- vibe (dark green) ---------- */
+  .vibe{
+    background:var(--green);
+    color:var(--cream);
+    padding:110px 0;
+  }
+  .vibe .wrap{
+    display:grid;
+    grid-template-columns:1fr 1.1fr;
+    gap:80px;
+    align-items:center;
+  }
+  .vibe h2{
+    font-size:clamp(38px,5vw,58px);
+    color:var(--mustard);
+  }
+  .vibe p{margin-top:22px; font-size:17px; line-height:1.7; max-width:46ch; color:#EDE7D6;}
+  .vibe-media{
+    position:relative;
+    border:6px solid var(--mustard);
+    box-shadow:16px 16px 0 rgba(0,0,0,.45);
+    transform:rotate(-3deg);
+    overflow:hidden;
+  }
+  .vibe-media img{width:100%; display:block; aspect-ratio:4/3; object-fit:cover;}
+
+  /* ---------- culture (sage) ---------- */
+  .culture{
+    background:var(--sage);
+    padding:110px 0;
+  }
+  .culture .wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+  }
+  .culture h2{font-size:clamp(34px,4.6vw,52px); color:var(--green);}
+  .culture-card{
+    background:var(--cream);
+    border:3px solid var(--ink);
+    box-shadow:10px 10px 0 var(--ink);
+    padding:38px 40px;
+  }
+  .culture-card p{margin-top:18px; font-size:15px; line-height:1.65; color:#2b2b2b;}
+  .culture-media{
+    border:4px solid var(--ink);
+    box-shadow:12px 12px 0 var(--ink);
+    overflow:hidden;
+  }
+  .culture-media img{width:100%; aspect-ratio:4/5; object-fit:cover;}
+
+  /* ---------- visit / cta ---------- */
+  .visit{
+    background:var(--mustard);
+    padding:90px 0;
+    border-top:3px solid var(--ink);
+    border-bottom:3px solid var(--ink);
+  }
+  .visit .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:40px; flex-wrap:wrap;
+  }
+  .visit h2{font-size:clamp(30px,4vw,46px); color:var(--ink); max-width:14ch;}
+  .visit-info{display:flex; gap:50px; flex-wrap:wrap;}
+  .visit-info div h4{font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; color:var(--maroon);}
+  .visit-info div p{font-size:15px; font-weight:600;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--ink);
+    color:var(--cream);
+    padding:90px 0 40px;
+    text-align:center;
+  }
+  footer .logo-lg{
+    font-family:'Anton', sans-serif;
+    font-size:clamp(42px,7vw,72px);
+    color:var(--mustard);
+    letter-spacing:1px;
+  }
+  footer .sub{
+    margin-top:16px;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--cream);
+  }
+  footer .loc{margin-top:34px; font-size:14px; color:#B8B2A0;}
+  footer .tags{margin-top:10px; font-size:13px; letter-spacing:1px; color:#8f8a7a;}
+  footer .bottom{
+    margin-top:60px; padding-top:24px;
+    border-top:1px solid #333;
+    font-size:12px; color:#6f6a5c;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .nav-inner{padding:16px 24px;}
+    nav ul{display:none;}
+    .wrap{padding:0 24px;}
+    .hero .wrap, .vibe .wrap, .culture .wrap{grid-template-columns:1fr;}
+    .hero{padding:50px 0 60px;}
+    .menu-grid{grid-template-columns:1fr 1fr;}
+    .vibe, .culture, .menu, .collage{padding:70px 0;}
+    .visit .wrap{flex-direction:column; align-items:flex-start;}
+  }
+  @media (max-width:600px){
+    .menu-grid{grid-template-columns:1fr;}
+    .tag-card{padding:28px 24px;}
+    .hero-media{box-shadow:8px 8px 0 var(--mustard);}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="#" class="logo">LA GUAPA</a>
+    <nav>
+      <ul>
+        <li><a href="#vibe">The Vibe</a></li>
+        <li><a href="#menu">The Menu</a></li>
+        <li><a href="#culture">Culture</a></li>
+      </ul>
+    </nav>
+    <a href="#visit" class="btn small">Reserve a Table</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-media reveal">
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop" alt="Smash burger with melted cheddar, LA GUAPA signature">
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">Barranquilla · Est. Now</span>
+      <h1>Gastronomy Meets Iconography</h1>
+      <p class="lead">We serve a unique, accessible menu featuring burgers and hot dogs with a twist. Dive into an expressive, bold dining experience where every item is named in homage to pop culture icons.</p>
+      <div class="callout">
+        <h3>Thematic Food</h3>
+        <p>Witty. Irreverent. Playful. Casual. Our menu is designed to fuel the culture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLAGE / ABOUT -->
+<section class="collage">
+  <div class="collage-shapes">
+    <span class="s1"></span>
+    <span class="s2"></span>
+    <span class="s3"></span>
+    <span class="s4"></span>
+  </div>
+  <div class="wrap collage-inner reveal">
+    <div class="tag-card">
+      <h2>Art Based Bar<br>and Restaurant</h2>
+    </div>
+    <div class="tag-card-sub">
+      <p>A lifestyle-centric destination bridging the gap between art and dining in Barranquilla.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>The Menu</h2>
+      <p>Every plate is a punchline and a headline. Pick your icon, pick your bite.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-item reveal">
+        <div class="kicker">Burger</div>
+        <h3>The Moonwalker</h3>
+        <p>Double smash patty, glazed onions, smoked cheddar, "one more bite" sauce.</p>
+        <span class="price">$28.000</span>
+      </div>
+      <div class="menu-item reveal">
+        <div class="kicker">Hot Dog</div>
+        <h3>Vinyl Vibes</h3>
+        <p>All-beef dog, crispy shallots, spinning slaw, mustard drizzle on repeat.</p>
+        <span class="price">$19.000</span>
+      </div>
+      <div class="menu-item reveal">
+        <div class="kicker">Burger</div>
+        <h3>The Kingpin</h3>
+        <p>Triple stack, bacon jam, pepper jack, an offer the bun can't refuse.</p>
+        <span class="price">$32.000</span>
+      </div>
+      <div class="menu-item reveal">
+        <div class="kicker">Sides</div>
+        <h3>Breaking Bread</h3>
+        <p>Sourdough bites, cook's-choice dip, chemistry-lab plating.</p>
+        <span class="price">$14.000</span>
+      </div>
+      <div class="menu-item reveal">
+        <div class="kicker">Hot Dog</div>
+        <h3>Stranger Bites</h3>
+        <p>Footlong, upside-down cheese pull, neon relish from another dimension.</p>
+        <span class="price">$21.000</span>
+      </div>
+      <div class="menu-item reveal">
+        <div class="kicker">Drinks</div>
+        <h3>Nostalgia Sour</h3>
+        <p>Whiskey, citrus, egg white foam, a rewind button in a glass.</p>
+        <span class="price">$24.000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIBE -->
+<section class="vibe" id="vibe">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Vibrant Nostalgia</h2>
+      <p>Blending gastronomy with artistic exhibits and DJ sets. LA GUAPA is a differentiated lifestyle venue where art and dining collide.</p>
+      <p>Join the movement. Engage with our thematic cultural events in an unapologetically bold space.</p>
+    </div>
+    <div class="vibe-media reveal">
+      <img src="https://images.unsplash.com/photo-1571266028243-e4bb35a0e050?q=80&w=1200&auto=format&fit=crop" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section class="culture" id="culture">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="culture-card">
+        <h2>Curated Eccentricity</h2>
+        <p>LA GUAPA positions itself as a trendy and expressive environment for an urban audience. We are more than just a bar; we are a philosophical cultural movement.</p>
+        <p>Experience a vibrant community atmosphere driven by peer cultural proof and modern trend-led design.</p>
+      </div>
+    </div>
+    <div class="culture-media reveal">
+      <img src="https://images.unsplash.com/photo-1502691876148-a84978e59af8?q=80&w=1000&auto=format&fit=crop" alt="Expressive green and yellow paint splatter artwork">
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <h2 class="reveal">Come As You Are.<br>Leave Part of the Culture.</h2>
+    <div class="visit-info reveal">
+      <div>
+        <h4>Location</h4>
+        <p>Barranquilla, Colombia</p>
+      </div>
+      <div>
+        <h4>Hours</h4>
+        <p>Wed–Sat, 6pm – 2am</p>
+      </div>
+      <div>
+        <h4>Reserve</h4>
+        <a class="btn small" href="#">Book a Table</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo-lg">LA GUAPA</div>
+    <div class="sub">Art Based Bar &amp; Restaurant</div>
+    <div class="loc">Barranquilla</div>
+    <div class="tags">Creativity · Community · Irreverence · Pop Culture</div>
+    <div class="bottom">© LA GUAPA. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
